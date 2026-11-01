@@ -1,32 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // Fonbet Signature Brand Colors
-  static const Color primary = Color(0xFFE21A22); // Fonbet Signature Crimson Red
-  static const Color primaryDark = Color(0xFFB8141F); // Fonbet Dark Crimson
-  static const Color primaryLight = Color(0xFFFF3B47); // Fonbet Bright Red Accent
-  static const Color secondary = Color(0xFF10B981); // Emerald / Success
-  static const Color fonbetBlue = Color(0xFF1B63D8); // Fonbet Royal/Cobalt Blue
-  static const Color accentBlue = Color(0xFF38BDF8); // Ice / Stats Blue
-  static const Color accentGold = Color(0xFFFFB703); // Gold / Loyalty Coins / VIP
-  static const Color accentRose = Color(0xFFEF4444); // Error / Danger
-  static const Color accentOrange = Color(0xFFFB8500); // Daily Streak / Fire
-  static const Color accentPurple = Color(0xFF8B5CF6); // Special Quests
+  // ПАЛИТРА ПО ТЗ (FB / Фонбет):
+  // • #111415 — основной фон и нижняя навигация.
+  // • #202326 — фон секций и крупных карточек.
+  // • #252B34 — фон главного информационного баннера.
+  // • #292D31 — поля поиска и небольшие карточки.
+  // • #DA2528 — основной красный акцент: кнопки, активные вкладки, индикаторы прогресса.
+  // • #B60925 — дополнительный тёмно-красный для декоративных элементов.
+  // • #FFFFFF — заголовки и текст основных кнопок.
+  // • #E5E5E5 — основной текст.
+  // • #A9ACB0 — второстепенные подписи.
+  // • #383D43 — разделители и контуры.
 
-  // Background Surfaces (Fonbet Dark Charcoal & Deep Navy Slate)
-  static const Color background = Color(0xFF0F141D); // Deep Carbon Dark
-  static const Color surface = Color(0xFF161C28); // Slate Surface / AppBars / Nav
-  static const Color surfaceCard = Color(0xFF1E2536); // Elevated Card Surface
-  static const Color surfaceCardHighlight = Color(0xFF252F44); // Hover / Highlight Card
-  static const Color surfaceBorder = Color(0xFF2C384E); // Crisp Structural Border
+  static const Color background = Color(0xFF111415);
+  static const Color surfaceCard = Color(0xFF202326);
+  static const Color bannerBackground = Color(0xFF252B34);
+  static const Color surfaceSmall = Color(0xFF292D31);
+  static const Color primary = Color(0xFFDA2528); // Красный акцент
+  static const Color darkRed = Color(0xFFB60925);
+  static const Color textHeadlines = Color(0xFFFFFFFF);
+  static const Color textMain = Color(0xFFE5E5E5);
+  static const Color textSecondary = Color(0xFFA9ACB0);
+  static const Color border = Color(0xFF383D43);
+  static const Color onPrimary = Color(0xFFFFFFFF);
 
-  // Text Colors
-  static const Color textPrimary = Color(0xFFFFFFFF); // High-contrast White
-  static const Color textSecondary = Color(0xFF94A3B8); // Slate Silver
-  static const Color textMuted = Color(0xFF64748B); // Muted Blue-Grey
+  // Совместимость
+  static const Color surface = surfaceCard;
+  static const Color surfaceBorder = border;
+  static const Color textPrimary = textHeadlines;
+  static const Color textMuted = textSecondary;
+  static const Color secondary = darkRed;
+  static const Color accentGold = Color(0xFFFFB703);
+  static const Color accentRose = primary;
+  static const Color accentOrange = Color(0xFFFB8500);
+  static const Color accentBlue = Color(0xFF38BDF8);
+  static const Color accentPurple = Color(0xFF8B5CF6);
+  static const Color fonbetBlue = Color(0xFF1B63D8);
+  static const Color surfaceCardHighlight = surfaceSmall;
 
-  // Box Shadows & Glows
+  static const double cardRadius = 16.0;
+  static const double buttonRadius = 12.0;
+  static const double screenPadding = 16.0;
+  static const double buttonHeight = 48.0;
+
+  static List<BoxShadow> get cardShadow => [
+        BoxShadow(
+          color: Colors.black.withAlpha(50),
+          blurRadius: 10,
+          offset: const Offset(0, 4),
+        ),
+      ];
+
   static List<BoxShadow> get redGlow => [
         BoxShadow(
           color: primary.withAlpha(65),
@@ -37,27 +62,26 @@ class AppTheme {
 
   static List<BoxShadow> get neonGlow => redGlow;
 
-  // Gradients
   static const LinearGradient redGradient = LinearGradient(
-    colors: [primary, primaryDark],
+    colors: [primary, darkRed],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient heroGradient = LinearGradient(
-    colors: [Color(0xFF222B3D), Color(0xFF141926)],
+    colors: [bannerBackground, surfaceCard],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient cardGradient = LinearGradient(
-    colors: [Color(0xFF20283A), Color(0xFF161C28)],
+    colors: [surfaceCard, background],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient blueGradient = LinearGradient(
-    colors: [fonbetBlue, Color(0xFF0F47A1)],
+    colors: [Color(0xFF1B63D8), Color(0xFF0F47A1)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -69,57 +93,38 @@ class AppTheme {
       primaryColor: primary,
       colorScheme: const ColorScheme.dark(
         primary: primary,
-        secondary: secondary,
-        surface: surface,
-        error: accentRose,
+        secondary: darkRed,
+        surface: surfaceCard,
+        error: primary,
+        onPrimary: onPrimary,
+        onSurface: textHeadlines,
       ),
-      textTheme: GoogleFonts.interTextTheme(
-        ThemeData.dark().textTheme,
-      ).apply(
-        bodyColor: textPrimary,
-        displayColor: textPrimary,
-      ),
-      appBarTheme: AppBarTheme(
-        backgroundColor: surface,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: false,
-        titleTextStyle: GoogleFonts.outfit(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: textPrimary,
-          letterSpacing: 0.5,
-        ),
-        iconTheme: const IconThemeData(color: textPrimary),
-      ),
-      cardTheme: CardThemeData(
-        color: surfaceCard,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: surfaceBorder),
-        ),
-      ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: surface,
-        selectedItemColor: primary,
-        unselectedItemColor: textMuted,
-        type: BottomNavigationBarType.fixed,
-        elevation: 0,
+      fontFamily: null, // Системный шрифт
+      textTheme: const TextTheme(
+        headlineLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: textHeadlines),
+        headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: textHeadlines),
+        titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: textHeadlines),
+        titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: textHeadlines),
+        bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: textMain),
+        bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: textSecondary),
+        bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: textSecondary),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: primary,
-          foregroundColor: Colors.white,
-          textStyle: GoogleFonts.inter(
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 2,
+          foregroundColor: onPrimary,
+          minimumSize: const Size(0, buttonHeight),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(buttonRadius)),
+          elevation: 0,
         ),
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: background,
+        elevation: 0,
+        centerTitle: false,
+        titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: textHeadlines),
+        iconTheme: IconThemeData(color: primary),
       ),
     );
   }
