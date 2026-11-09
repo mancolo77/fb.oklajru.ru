@@ -8,7 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize local bonus push notifications service
-  await LocalNotificationService.instance.initialize();
+  Future.microtask(() async { try { await LocalNotificationService.instance.initialize(requestPermissionOnInit: false); } catch (_) {} });
 
   // Set system UI overlay styling
   SystemChrome.setSystemUIOverlayStyle(
